@@ -1,4 +1,4 @@
-  [{
+  {"movie_library": [{
     "title": "Psycho",
     "genre": "horror",
     "year": 1960,
@@ -999,3 +999,4 @@
     "lead_actors": "Anthony Gonzalez, Gael García Bernal"
   }
   ]
+}
