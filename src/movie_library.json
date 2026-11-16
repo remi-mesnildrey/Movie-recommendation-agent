@@ -1,5 +1,4 @@
-movie_library = [
-  {
+  [{
     "title": "Psycho",
     "genre": "horror",
     "year": 1960,
@@ -999,4 +998,4 @@ movie_library = [
     "director": "Lee Unkrich",
     "lead_actors": "Anthony Gonzalez, Gael García Bernal"
   }
-]
+  ]
