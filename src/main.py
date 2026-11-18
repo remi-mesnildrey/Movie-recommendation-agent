@@ -1,4 +1,4 @@
-from pydantic import BaseModel, ValidationError, Field, EmailStr
+from pydantic import BaseModel, ValidationError, Field, field_validator, EmailStr
 from typing import List, Optional, Literal
 from datetime import date, datetime
 from openai import OpenAI
@@ -26,6 +26,13 @@ class Movie(BaseModel):
     lead_actors: Optional[List[str]] = None
     synopsis: Optional[str] = Field(default=None, min_length=10, max_length=500)
 
+    @field_validator("lead_actors", mode="before")
+    @classmethod
+    def split_actors_string(cls, v):
+        if isinstance(v, str):
+            return [actor.strip() for actor in v.split(",") if actor.strip()]
+        return v
+    
 class MoviesInLibrary(BaseModel):
     movies: List[Movie]
 
@@ -105,12 +112,14 @@ def find_streaming_link_for_movie(args: StreamingSearchArgs) -> str:
     )
 
     # Uses OpenAI's web-search enabled model to get a real streaming URL
-    search_response = openai_client.chat.completions.create(
-        model="gpt-4o-search-preview",
-        messages=[{"role": "user", "content": prompt}],
+    search_response = openai_client.responses.create(
+        model="gpt-6-luna",
+        tools=[{"type": "web_search"}],
+        input=prompt,
     )
 
-    return search_response.choices[0].message.content or "No streaming link found."
+    text = getattr(search_response, "output_text", None)
+    return text.strip() if text and text.strip() else "No streaming link found."
 
 
 # Convert Pydantic argument classes into OpenAI tool schemas
@@ -197,7 +206,7 @@ def recommend_movie(user_input: str) -> RecommendationResponse:
 
     # Parse the final conversation state into your Pydantic RecommendationResponse model
     final_parsed = openai_client.beta.chat.completions.parse(
-        model="gpt-4o",
+        model="gpt-6-luna",
         messages=messages,
         response_format=RecommendationResponse,
     )
@@ -208,10 +217,13 @@ def recommend_movie(user_input: str) -> RecommendationResponse:
 
 
 if __name__ == "__main__":
-    user_input = (
-        "Please recommend an action movie from the 80s with a good rating. "
-        "Something with Bruce Willis would be great!"
-    )
+    
+    #user_input = (
+    #    "Please recommend an action movie from the 80s with a good rating. "
+    #    "Something with Bruce Willis would be great!"
+    #)
+
+    user_input = input("Enter your movie recommendation request: ")
 
     recommendation = recommend_movie(user_input)
     print("\nFinal Recommendation:")
