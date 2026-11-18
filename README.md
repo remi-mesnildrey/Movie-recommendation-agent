@@ -8,7 +8,8 @@ An AI-powered movie recommendation assistant built with **OpenAI Tool Calling**,
 
 [![Streamlit](https://img.shields.io/badge/UI-Streamlit-FF4B4B.svg)](https://streamlit.io/)
 [![OpenAI](https://img.shields.io/badge/AI-OpenAI_Tools-412991.svg)](https://platform.openai.com/)
-[![Pydantic](https://img.shields.io/pypi/v/pydantic.svg)](https://pypi.org)
+[![Pydantic v2](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/pydantic/pydantic/main/docs/badge/v2.json)](https://pydantic.dev)
+
 
 
 **What should I expect?** You are prompted for a type of movie you would like to watch (e.g., "A classic action movie from the 80s"). The agent gets a recommendation from OpenAI then check your local movie collection first. If no matching title is found in your personal library, it searched the web and retrieve a direct streaming link from a legitimate platform.
