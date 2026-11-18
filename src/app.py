@@ -13,7 +13,7 @@ st.caption("Searches your local library first, then searches the web for streami
 # Sidebar showing what's currently in the local JSON library
 with st.sidebar:
     st.header("📚 Local Movie Library")
-    st.write(f"**{len(movie_library)}** movies loaded")
+    st.write(f"You have **{len(movie_library)}** movies in your library")
     for m in movie_library:
         with st.expander(f"{m.title} ({m.year or 'N/A'})"):
             st.write(f"**Genre:** {m.genre or 'N/A'}")
@@ -31,6 +31,8 @@ if col1.button("💥 80s Bruce Willis Action"):
     default_prompt = "Please recommend an action movie from the 80s with a good rating. Something with Bruce Willis would be great!"
 if col2.button("🚀 Mind-bending Sci-Fi"):
     default_prompt = "Recommend a high-rated sci-fi movie with great visuals."
+if col2.button("A Christopher Nolan movie"):
+    default_prompt = "Recommend a high-rated movie directed by Christopher Nolan."
 
 # Input form
 with st.form("recommendation_form"):
