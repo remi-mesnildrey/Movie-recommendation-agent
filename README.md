@@ -109,11 +109,12 @@ streamlit run app.py
 ## 🧠 How It Works
 
 1. **User Input:** The user submits a natural language movie request in the Streamlit UI.
-2. **Tool Call 1 (`lookup_movie_in_library`):** The agent is instructed via system prompt to always search `movie_library.json` first.
-3. **Decision Branch:**
-   * **Match Found:** The agent selects the best fit from your local library and sets `source="In Movie Library"`.
-   * **No Match (`no_matches`):** The agent chooses a fitting real-world movie and triggers **Tool Call 2 (`find_streaming_link_for_movie`)**, which queries OpenAI's search-enabled model to locate a legal streaming URL, setting `source="External link"`.
-4. **Structured Parsing:** The final conversation state is parsed directly into the `RecommendationResponse` Pydantic model and rendered cleanly in the UI.
+2. **OpenAI call:** The query is sent to OpenAI to get a movie recommendation.
+3. **Tool Call 1 (`lookup_movie_in_library`):** The agent is instructed via system prompt to always search `movie_library.json` first.
+4. **Decision Branch:**
+   * **Match Found:** The agent selects the recommended movie fit from your local library and sets `source="In Movie Library"`.
+   * **No Match (`no_matches`):** The agent **Tool Call 2 (`find_streaming_link_for_movie`)**, which queries OpenAI's search-enabled model to locate a legal streaming URL, setting `source="External link"`.
+5. **Structured Parsing:** The final conversation state is parsed directly into the `RecommendationResponse` Pydantic model and rendered cleanly in the UI.
 
 ```mermaid
 sequenceDiagram
@@ -159,5 +160,4 @@ sequenceDiagram
 
 ## 🛠️ Customization
 
-* **Genres & Ratings:** You can expand the allowed `Literal` genres or adjust validation constraints directly in the `Movie` model inside `agent.py`.
 * **Models:** `agent.py` uses `gpt-4o` for tool orchestration and structured parsing, paired with `gpt-5-search-api` for web search. You can swap these models in `agent.py` as needed.
