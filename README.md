@@ -11,7 +11,6 @@ An AI-powered movie recommendation assistant built with **OpenAI Tool Calling**,
 [![Pydantic v2](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/pydantic/pydantic/main/docs/badge/v2.json)](https://pydantic.dev)
 
 
-
 **What should I expect?** You are prompted for a type of movie you would like to watch (e.g., "A classic action movie from the 80s"). The agent gets a recommendation from OpenAI then check your local movie collection first. If no matching title is found in your personal library, it searched the web and retrieve a direct streaming link from a legitimate platform.
 
 ---
@@ -155,6 +154,7 @@ sequenceDiagram
     Model-->>Agent: Validated Pydantic Object (RecommendationResponse)
     Agent-->>UI: Return RecommendationResponse object
     UI->>User: Display success badges, metadata, & streaming button
+```
 
 ---
 
